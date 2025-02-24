@@ -1,26 +1,52 @@
 package com.demo.mygreetingapp.service;
 
+import com.demo.mygreetingapp.entity.GreetingMessage;
+import com.demo.mygreetingapp.model.GreetingModel;
+import com.demo.mygreetingapp.model.GreetingRequest;
+import com.demo.mygreetingapp.repository.GreetingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 // Service layer to handle business logic
 @Service
 public class GreetingService {
-	// Created a method to get the Greeting message with the given name
-	public String getGreetingMessage(String firstName, String lastName) {
-		// If both first name & last name are provided
-		if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
-			return "Hello, " + firstName + " " + lastName + "!";
+	@Autowired
+	private final GreetingRepository greetingRepository;
+
+	// Constructor-based Dependency Injection
+	public GreetingService(GreetingRepository greetingRepository) {
+		this.greetingRepository = greetingRepository;
+	}
+
+	// Generate and Save Greeting Message
+	public GreetingModel generateAndSaveGreeting(GreetingRequest request) {
+		String message;
+
+		if (request.getFirstName() != null && request.getLastName() != null) {
+			message = "Hello, " + request.getFirstName() + " " + request.getLastName() + "!";
 		}
-		// If only first name is provided
-		else if (firstName != null && !firstName.isEmpty()) {
-			return "Hello, " + firstName + "!";
+		else if (request.getFirstName() != null) {
+			message = "Hello, " + request.getFirstName() + "!";
 		}
-		// If only last name is provided
-		else if (lastName != null && !lastName.isEmpty()) {
-			return "Hello, " + lastName + "!";
+		else if (request.getLastName() != null) {
+			message = "Hello, " + request.getLastName() + "!";
 		}
-		// If neither is provided, return default message
-		return "Hello, World!";
+		else {
+			message = "Hello, World!";
+		}
+
+		// Save message in the database
+		GreetingMessage greetingMessage = new GreetingMessage(message);
+		greetingRepository.save(greetingMessage);
+
+		return new GreetingModel(message);
+	}
+
+	// Retrieve All Saved Messages
+	public List<GreetingMessage> getAllGreetings() {
+		return greetingRepository.findAll();
 	}
 
 	// Put Method to  update the data
