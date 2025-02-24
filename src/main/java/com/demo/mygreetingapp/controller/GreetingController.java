@@ -1,9 +1,10 @@
 package com.demo.mygreetingapp.controller;
 
 import com.demo.mygreetingapp.entity.GreetingMessage;
-import com.demo.mygreetingapp.service.GreetingService;
 import com.demo.mygreetingapp.model.GreetingModel;
 import com.demo.mygreetingapp.model.GreetingRequest;
+import com.demo.mygreetingapp.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,8 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/greet")
 public class GreetingController {
+
+	@Autowired
 	private final GreetingService greetingService;
 
+
+	// Constructor to initialize greeting service (DI = dependency Injection)
 	public GreetingController(GreetingService greetingService) {
 		this.greetingService = greetingService;
 	}
@@ -27,6 +32,11 @@ public class GreetingController {
 	@GetMapping("/all")
 	public List<GreetingMessage> getAllGreetings() {
 		return greetingService.getAllGreetings();
+	}
+
+	@GetMapping("/{id}")
+	public GreetingMessage getGreetingById(@PathVariable Long id) {
+		return greetingService.getGreetingById(id);
 	}
 
 	// Handles PUT requests
