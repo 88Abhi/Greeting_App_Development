@@ -55,9 +55,10 @@ public class GreetingController {
 		return ResponseEntity.ok(updatedGreeting);
 	}
 
-	// Handles DELETE requests
-	@DeleteMapping
-	public GreetingModel deleteGreeting() {
-		return new GreetingModel(greetingService.deleteGreetingMessage());
+	// Deleting the greeting message by id
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteGreeting(@PathVariable Long id) {
+		greetingService.deleteGreeting(id);
+		return ResponseEntity.ok("Greeting with ID " + id + " has been deleted.");
 	}
 }
