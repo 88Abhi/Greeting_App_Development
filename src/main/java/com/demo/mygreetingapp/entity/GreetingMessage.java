@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity  // Marks this class as a database entity
 public class GreetingMessage {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
 	private Long id;
