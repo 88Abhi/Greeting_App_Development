@@ -1,33 +1,40 @@
 package com.demo.mygreetingapp.controller;
 
-import com.demo.mygreetingapp.model.Greeting;
+import com.demo.mygreetingapp.model.GreetingModel;
+import com.demo.mygreetingapp.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
-// REST Controller to handle HTTP requests
 @RestController
-@RequestMapping("/greet")
+@RequestMapping("/greet") // Base URL for all endpoints
 public class GreetingController {
-	// GET Request to return a simple greeting message
+
+	private final GreetingService greetingService;
+
+	public GreetingController(GreetingService greetingService) {
+		this.greetingService = greetingService;
+	}
+
+	// Handles GET requests
 	@GetMapping
-	public Greeting getGreeting() {
-		return new Greeting("Hello from BridgeLabz - GET Method");
+	public GreetingModel getGreeting() {
+		return new GreetingModel(greetingService.getGreetingMessage());
 	}
 
-	// POST Request to return a greeting message for POST
+	// Handles POST requests
 	@PostMapping
-	public Greeting postGreeting(@RequestBody Greeting greeting) {
-		return new Greeting("Hello " + greeting.getMessage() + " from BridgeLabz - POST Method");
+	public GreetingModel postGreeting() {
+		return new GreetingModel(greetingService.postGreetingMessage());
 	}
 
-	// PUT Request to return a greeting message for PUT
+	// Handles PUT requests
 	@PutMapping
-	public Greeting putGreeting() {
-		return new Greeting("Hello from BridgeLabz - PUT Method");
+	public GreetingModel putGreeting() {
+		return new GreetingModel(greetingService.putGreetingMessage());
 	}
 
-	// DELETE Request to return a greeting message for DELETE
+	// Handles DELETE requests
 	@DeleteMapping
-	public Greeting deleteGreeting() {
-		return new Greeting("Hello from BridgeLabz - DELETE Method");
+	public GreetingModel deleteGreeting() {
+		return new GreetingModel(greetingService.deleteGreetingMessage());
 	}
 }

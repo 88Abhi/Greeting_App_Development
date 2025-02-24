@@ -1,11 +1,11 @@
 package com.demo.mygreetingapp.model;
 
 // Greeting model to represent the response data
-public class Greeting {
+public class GreetingModel {
 	private String message;
 
 	// Constructor for greeting class
-	public Greeting(String message) {
+	public GreetingModel(String message) {
 		this.message = message;
 	}
 
