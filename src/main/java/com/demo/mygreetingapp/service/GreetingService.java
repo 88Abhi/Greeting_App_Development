@@ -49,13 +49,19 @@ public class GreetingService {
 		return greetingRepository.findAll();
 	}
 
+	// Create a method to find message by id
+	public GreetingMessage getGreetingById(Long id) {
+		return greetingRepository.findById(id).orElseThrow(() ->
+			   new RuntimeException("Greeting not found for ID: " + id));
+	}
+
 	// Put Method to  update the data
 	public String putGreetingMessage() {
-		return "Hello Abhishek, this is a PUT request!";
+		return "Hello Ankit Rajput, this is a PUT request!";
 	}
 
 	// Delete method to delete the data
 	public String deleteGreetingMessage() {
-		return "Hello Abhishek, this is a DELETE request!";
+		return "Hello Ankit Rajput, this is a DELETE request!";
 	}
 }
