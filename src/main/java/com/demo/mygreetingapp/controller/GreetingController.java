@@ -7,6 +7,7 @@ import com.demo.mygreetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -44,10 +45,14 @@ public class GreetingController {
 		return ResponseEntity.ok(greetingService.getGreetingById(id));
 	}
 
-	// Handles PUT requests
-	@PutMapping
-	public GreetingModel putGreeting() {
-		return new GreetingModel(greetingService.putGreetingMessage());
+	// Method to update the message for given user id
+	@PutMapping("/{id}")
+	public ResponseEntity<GreetingMessage> updateGreeting(@PathVariable Long id, @RequestBody GreetingMessage newGreeting) {
+		// Making call to service layer update greeting and get the updated response
+		GreetingMessage updatedGreeting = greetingService.updateGreeting(id, newGreeting.getMessage());
+
+		// returning the updated greeting status
+		return ResponseEntity.ok(updatedGreeting);
 	}
 
 	// Handles DELETE requests

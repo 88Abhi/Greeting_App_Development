@@ -51,17 +51,22 @@ public class GreetingService {
 
 	// Create a method to find message by id
 	public GreetingMessage getGreetingById(Long id) {
-		return greetingRepository.findById(id).orElseThrow(() ->
-			   new RuntimeException("Greeting not found for ID: " + id));
+		return greetingRepository.findById(id).orElseThrow(() -> new RuntimeException("Greeting not found for ID: " + id));
 	}
 
-	// Put Method to  update the data
-	public String putGreetingMessage() {
-		return "Hello Ankit Rajput, this is a PUT request!";
+	// Method to update message for given user id
+	public GreetingMessage updateGreeting(Long id, String newMessage) {
+		GreetingMessage greeting = greetingRepository.findById(id).orElseThrow(() -> new RuntimeException("Greeting not found for ID: " + id));
+
+		// Make a call to set the Message
+		greeting.setMessage(newMessage);
+
+		// Make a call and Save updated greeting
+		return greetingRepository.save(greeting);
 	}
 
 	// Delete method to delete the data
 	public String deleteGreetingMessage() {
-		return "Hello Ankit Rajput, this is a DELETE request!";
+		return "Hello Abhishek, this is a DELETE request!";
 	}
 }
