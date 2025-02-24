@@ -1,11 +1,13 @@
 package com.demo.mygreetingapp.controller;
 
 import com.demo.mygreetingapp.model.GreetingModel;
+import com.demo.mygreetingapp.model.GreetingRequest;
 import com.demo.mygreetingapp.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
+// Base URL for all endpoints
 @RestController
-@RequestMapping("/greet") // Base URL for all endpoints
+@RequestMapping("/greet")
 public class GreetingController {
 
 	private final GreetingService greetingService;
@@ -14,16 +16,17 @@ public class GreetingController {
 		this.greetingService = greetingService;
 	}
 
-	// Handles GET requests
+	// Handle GET requests (Default Greeting)
 	@GetMapping
-	public GreetingModel getGreeting() {
-		return new GreetingModel(greetingService.getGreetingMessage());
+	public GreetingModel getDefaultGreeting() {
+		return new GreetingModel(greetingService.getGreetingMessage(null, null));
 	}
 
-	// Handles POST requests
+	// Handle POST requests (Personalized Greeting)
 	@PostMapping
-	public GreetingModel postGreeting() {
-		return new GreetingModel(greetingService.postGreetingMessage());
+	public GreetingModel createGreeting(@RequestBody GreetingRequest request) {
+		String message = greetingService.getGreetingMessage(request.getFirstName(), request.getLastName());
+		return new GreetingModel(message);
 	}
 
 	// Handles PUT requests
